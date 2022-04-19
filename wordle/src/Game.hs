@@ -33,6 +33,14 @@ game a w gameState = do
     where
         att = length gameState
 
+display:: [String] -> Int -> IO()
+display gameState att = do
+    putStrLn "---- Wordle ----"
+    drawBoard gameState att
+    putStr "Attempts: "
+    putStr $ show att
+    putStrLn "/6"
+
 drawBoard:: [String] -> Int -> IO ()
 drawBoard [] n = drawEmptyLines (6-n)
 drawBoard (x:xs) n = do
