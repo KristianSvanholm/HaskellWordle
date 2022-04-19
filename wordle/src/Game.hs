@@ -15,11 +15,11 @@ checkWord a g w
     | find g w = 1 -- Word exists, but is not correct word.
     | otherwise = 2 -- Word does not exist
 
-game:: String -> [String] -> [String]-> IO ()
-game a w gameState = do
+game:: (String, [String]) -> [String]-> IO ()
+game (a,w) gameState = do
     hSetBuffering stdout NoBuffering
 
-    display gameState att
+    display gameState
 
     if att /= 6 then do
 
@@ -27,28 +27,34 @@ game a w gameState = do
         let cond = checkWord a input w
 
         case cond of
-            0 -> putStrLn "You win!"
+            0 -> do
+                clear
+                display gameState
+                putStrLn "You win!"
             1 -> do
                 clear
-                game a w (gameState++[input])
+                game (a,w) (gameState++[input])
             2 -> do
                 clear
                 putStrLn "Not a word!"
-                game a w gameState
+                game (a,w) gameState
+
     else do
         putStrLn "Out of attempts!"
 
     where
         att = length gameState
 
-display:: [String] -> Int -> IO()
-display gameState att = do
+display:: [String] -> IO()
+display gameState = do
     putStrLn "---- Wordle ----"
     drawBoard (generateBoard gameState)
     putStr "Attempts: "
     putStr $ show att
     putStrLn "/6"
     putStrLn "New attempt:"
+    where 
+        att = length gameState
 
 drawBoard:: [String] -> IO ()
 drawBoard [] = return ()

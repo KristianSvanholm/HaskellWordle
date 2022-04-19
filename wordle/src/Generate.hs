@@ -10,7 +10,7 @@ import Data.Time.Clock ( getCurrentTime, UTCTime(utctDayTime) )
 getRn :: (RandomGen g) => Int -> Int -> g -> (Int,g)
 getRn lo hi = randomR (lo,hi)
 
-generateGame:: IO ([String],String)
+generateGame:: IO (String,[String])
 generateGame = do
     ansTxt <- fileRead "wordLists/answers.txt"
     wordsTxt <- fileRead "wordLists/words.txt"
@@ -22,7 +22,7 @@ generateGame = do
     let (num,_) = getRn 0 (length answerPool) init
 
     let words = merge wordsPool (removeNth num answerPool)
-    return (words,answerPool!!num)
+    return (answerPool!!num,words)
 
 removeNth :: Int -> [] a -> [] a
 removeNth = \ n list -> case n of
