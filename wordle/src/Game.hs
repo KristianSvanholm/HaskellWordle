@@ -3,6 +3,8 @@ module Game where
 import System.IO(hSetBuffering, BufferMode(NoBuffering), stdout)
 import Data.Char
 
+gameLength :: Int
+gameLength = 6
 
 find :: String -> [String] -> Bool
 find _ [] = False
@@ -22,7 +24,7 @@ game (a,w) gameState = do
 
     display gameState
 
-    if att /= 6 then do
+    if att /= gameLength then do
         putStr "New attempt: "
         input <- getLine
         let cond = checkWord a input w
@@ -54,11 +56,12 @@ drawBoard [] = []
 drawBoard (x:xs) = x ++ "\n" ++ drawBoard xs
 
 generateBoard :: [String] -> [String]
-generateBoard [] = emptyLines 6
+generateBoard [] = emptyLines gameLength
 generateBoard list = line ++ emptyLines n
     where
         line = map format list
-        n = 6 - length list
+        n = gameLength - length list
+
 
 emptyLines :: Int -> [String]
 emptyLines 0 = []
