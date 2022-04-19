@@ -32,3 +32,11 @@ game a w gameState = do
 
     where
         att = length gameState
+
+
+drawEmptyLines:: Int -> IO()
+drawEmptyLines 0 = return ()
+drawEmptyLines 1 = putStrLn "□ □ □ □ □"
+drawEmptyLines n = do
+    putStrLn "□ □ □ □ □"
+    drawEmptyLines (n-1)
