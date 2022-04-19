@@ -25,13 +25,19 @@ source-repository head
 
 library
   exposed-modules:
+      Game
+      Generate
       Lib
+      ReadFile
+      WordParser
   other-modules:
       Paths_wordle
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , random
+    , time
   default-language: Haskell2010
 
 executable wordle-exe

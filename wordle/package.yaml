@@ -24,6 +24,9 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+    - random
+    - time
 
 executables:
   wordle-exe:
