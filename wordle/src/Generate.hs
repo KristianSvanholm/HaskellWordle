@@ -3,9 +3,9 @@
 {-# HLINT ignore "Used otherwise as a pattern" #-}
 module Generate(generateGame) where
 
-import ReadFile
-import System.Random
-import Data.Time.Clock
+import ReadFile ( fileRead )
+import System.Random ( mkStdGen, Random(randomR), RandomGen )
+import Data.Time.Clock ( getCurrentTime, UTCTime(utctDayTime) )
 
 getRn :: (RandomGen g) => Int -> Int -> g -> (Int,g)
 getRn lo hi = randomR (lo,hi)
