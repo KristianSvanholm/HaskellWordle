@@ -20,7 +20,7 @@ game a w gameState = do
     hSetBuffering stdout NoBuffering
 
     display gameState att
-    
+
     if att /= 6 then do
 
         input <- getLine
@@ -28,8 +28,11 @@ game a w gameState = do
 
         case cond of
             0 -> putStrLn "You win!"
-            1 -> game a w (gameState++[input])
+            1 -> do
+                clear
+                game a w (gameState++[input])
             2 -> do
+                clear
                 putStrLn "Not a word!"
                 game a w gameState
     else do
@@ -62,3 +65,6 @@ generateBoard list = list ++ emptyLines n
 emptyLines:: Int -> [String]
 emptyLines 0 = []
 emptyLines n = "□ □ □ □ □" : emptyLines (n-1)
+
+clear :: IO ()
+clear = putStrLn "\ESC[2J"

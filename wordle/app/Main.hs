@@ -1,11 +1,12 @@
 module Main where
-import System.IO(hSetBuffering, BufferMode(NoBuffering), stdout)
 
 import Lib
 import Generate
+import Game
 
 main :: IO ()
 main = do
-    hSetBuffering stdout NoBuffering
+    clear
     (possible, answer) <- generateGame
     print answer
+    game answer possible []
