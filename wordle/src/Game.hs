@@ -47,13 +47,11 @@ game (a,w) gameState = do
 display :: [String] -> IO()
 display gameState = do
     putStrLn "---- Wordle ----"
-    drawBoard (generateBoard gameState)
+    putStr (drawBoard (generateBoard gameState))
 
-drawBoard :: [String] -> IO ()
-drawBoard [] = return ()
-drawBoard (x:xs) = do
-    putStrLn x
-    drawBoard xs
+drawBoard :: [String] -> String
+drawBoard [] = []
+drawBoard (x:xs) = x ++ "\n" ++ drawBoard xs
 
 generateBoard :: [String] -> [String]
 generateBoard [] = emptyLines 6
