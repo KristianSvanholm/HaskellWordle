@@ -12,8 +12,8 @@ find n (x:xs)
 
 checkWord:: String -> String -> [String] -> Int
 checkWord a g w
-    | a == g = 0 -- Win condition
-    | find g w = 1 -- Word exists, but is not correct word.
+    | a == map toLower g = 0 -- Win condition
+    | find (map toLower g) w = 1 -- Word exists, but is not correct word.
     | otherwise = 2 -- Word does not exist
 
 game:: (String, [String]) -> [String]-> IO ()
@@ -23,7 +23,7 @@ game (a,w) gameState = do
     display gameState
 
     if att /= 6 then do
-
+        putStr "New attempt: "
         input <- getLine
         let cond = checkWord a input w
 
@@ -50,7 +50,6 @@ display:: [String] -> IO()
 display gameState = do
     putStrLn "---- Wordle ----"
     drawBoard (generateBoard gameState)
-    putStrLn "New attempt:"
     where
         att = length gameState
 
