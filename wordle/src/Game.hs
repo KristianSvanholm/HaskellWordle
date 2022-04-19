@@ -4,19 +4,19 @@ import System.IO(hSetBuffering, BufferMode(NoBuffering), stdout)
 import Data.Char
 
 
-find:: String -> [String] -> Bool
+find :: String -> [String] -> Bool
 find _ [] = False
 find n (x:xs)
     | x == n = True
     | otherwise = find n xs
 
-checkWord:: String -> String -> [String] -> Int
+checkWord :: String -> String -> [String] -> Int
 checkWord a g w
     | a == map toLower g = 0 -- Win condition
     | find (map toLower g) w = 1 -- Word exists, but is not correct word.
     | otherwise = 2 -- Word does not exist
 
-game:: (String, [String]) -> [String]-> IO ()
+game :: (String, [String]) -> [String]-> IO ()
 game (a,w) gameState = do
     hSetBuffering stdout NoBuffering
 
@@ -27,16 +27,14 @@ game (a,w) gameState = do
         input <- getLine
         let cond = checkWord a input w
 
+        clear
         case cond of
             0 -> do
-                clear
                 display gameState
                 putStrLn "You win!"
             1 -> do
-                clear
                 game (a,w) (gameState++[input])
             2 -> do
-                clear
                 putStrLn "Not a word!"
                 game (a,w) gameState
 
@@ -46,33 +44,31 @@ game (a,w) gameState = do
     where
         att = length gameState
 
-display:: [String] -> IO()
+display :: [String] -> IO()
 display gameState = do
     putStrLn "---- Wordle ----"
     drawBoard (generateBoard gameState)
     where
         att = length gameState
 
-drawBoard:: [String] -> IO ()
+drawBoard :: [String] -> IO ()
 drawBoard [] = return ()
 drawBoard (x:xs) = do
     putStrLn x
     drawBoard xs
 
-generateBoard:: [String] -> [String]
+generateBoard :: [String] -> [String]
 generateBoard [] = emptyLines 6
-generateBoard list = formatWords list ++ emptyLines n
+generateBoard list = line ++ emptyLines n
     where
+        line = map format list
         n = 6 - length list
 
-emptyLines:: Int -> [String]
+emptyLines :: Int -> [String]
 emptyLines 0 = []
 emptyLines n = "□ □ □ □ □" : emptyLines (n-1)
 
-formatWords :: [String] -> [String]
-formatWords = map format
-
-format:: String -> String
+format :: String -> String
 format [] = []
 format (x:xs) = toUpper x : " " ++ format xs
 
