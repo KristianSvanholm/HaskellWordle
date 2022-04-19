@@ -1,12 +1,18 @@
 module Main where
 
 import Lib
-import Generate
-import Game
+import Generate(generateGame)
+import Game(game,clear)
+import Control.Monad
 
 main :: IO ()
-main = do
+main = startGame
+
+startGame:: IO()
+startGame = do
     clear
-    (possible, answer) <- generateGame
-    print answer
-    game answer possible []
+    newGame <- generateGame
+    game newGame []
+    putStrLn "Play again? Y/N"
+    input <- getLine
+    when(input == "Y"||input == "y") startGame 
