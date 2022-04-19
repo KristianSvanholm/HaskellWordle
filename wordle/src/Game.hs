@@ -56,6 +56,11 @@ drawEmptyLines n = do
     drawEmptyLines (n-1)
 
 
+generateBoard:: [String] -> [String]
+generateBoard list = list ++ emptyLines n
+    where
+        n = 6 - length list
+
 emptyLines:: Int -> [String]
 emptyLines 0 = []
 emptyLines n = "□ □ □ □ □" : emptyLines (n-1)
