@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Game where
+import System.IO(hSetBuffering, BufferMode(NoBuffering), stdout)
+
 
 find:: String -> [String] -> Bool
 find _ [] = False
@@ -15,8 +17,11 @@ checkWord a g w
 
 game:: String -> [String] -> [String]-> IO ()
 game a w gameState = do
+    hSetBuffering stdout NoBuffering
+
+    display gameState att
+    
     if att /= 6 then do
-        display gameState att
 
         input <- getLine
         let cond = checkWord a input w
@@ -36,27 +41,20 @@ game a w gameState = do
 display:: [String] -> Int -> IO()
 display gameState att = do
     putStrLn "---- Wordle ----"
-    drawBoard gameState att
+    drawBoard (generateBoard gameState)
     putStr "Attempts: "
     putStr $ show att
     putStrLn "/6"
     putStrLn "New attempt:"
 
-drawBoard:: [String] -> Int -> IO ()
-drawBoard [] n = drawEmptyLines (6-n)
-drawBoard (x:xs) n = do
+drawBoard:: [String] -> IO ()
+drawBoard [] = return ()
+drawBoard (x:xs) = do
     putStrLn x
-    drawBoard xs n
-
-drawEmptyLines:: Int -> IO()
-drawEmptyLines 0 = return ()
-drawEmptyLines 1 = putStrLn "□ □ □ □ □"
-drawEmptyLines n = do
-    putStrLn "□ □ □ □ □"
-    drawEmptyLines (n-1)
-
+    drawBoard xs
 
 generateBoard:: [String] -> [String]
+generateBoard [] = emptyLines 6
 generateBoard list = list ++ emptyLines n
     where
         n = 6 - length list
