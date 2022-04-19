@@ -33,6 +33,11 @@ game a w gameState = do
     where
         att = length gameState
 
+drawBoard:: [String] -> Int -> IO ()
+drawBoard [] n = drawEmptyLines (6-n)
+drawBoard (x:xs) n = do
+    putStrLn x
+    drawBoard xs n
 
 drawEmptyLines:: Int -> IO()
 drawEmptyLines 0 = return ()
