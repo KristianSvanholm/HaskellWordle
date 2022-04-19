@@ -48,8 +48,6 @@ display :: [String] -> IO()
 display gameState = do
     putStrLn "---- Wordle ----"
     drawBoard (generateBoard gameState)
-    where
-        att = length gameState
 
 drawBoard :: [String] -> IO ()
 drawBoard [] = return ()
