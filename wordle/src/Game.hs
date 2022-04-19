@@ -16,7 +16,7 @@ checkWord a g w
 game:: String -> [String] -> [String]-> IO ()
 game a w gameState = do
     if att /= 6 then do
-        putStrLn "New attempt:"
+        display gameState att
 
         input <- getLine
         let cond = checkWord a input w
@@ -24,7 +24,7 @@ game a w gameState = do
         case cond of
             0 -> putStrLn "You win!"
             1 -> game a w (gameState++[input])
-            2 -> do 
+            2 -> do
                 putStrLn "Not a word!"
                 game a w gameState
     else do
@@ -40,6 +40,7 @@ display gameState att = do
     putStr "Attempts: "
     putStr $ show att
     putStrLn "/6"
+    putStrLn "New attempt:"
 
 drawBoard:: [String] -> Int -> IO ()
 drawBoard [] n = drawEmptyLines (6-n)
@@ -53,3 +54,8 @@ drawEmptyLines 1 = putStrLn "□ □ □ □ □"
 drawEmptyLines n = do
     putStrLn "□ □ □ □ □"
     drawEmptyLines (n-1)
+
+
+emptyLines:: Int -> [String]
+emptyLines 0 = []
+emptyLines n = "□ □ □ □ □" : emptyLines (n-1)
