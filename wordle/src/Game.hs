@@ -42,6 +42,8 @@ game (a,w) gameState = do
 
     else do
         putStrLn "Out of attempts!"
+        putStr "The word was: "
+        putStrLn (map toUpper a)
 
     where
         att = length gameState
