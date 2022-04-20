@@ -2,6 +2,8 @@
 module Game where
 import System.IO(hSetBuffering, BufferMode(NoBuffering), stdout)
 import Data.Char
+import WordParser (parse)
+import Colors (gray, green, yellow)
 
 gameLength :: Int
 gameLength = 6
@@ -18,7 +20,7 @@ checkWord a g w
     | find (map toLower g) w = 1 -- Word exists, but is not correct word.
     | otherwise = 2 -- Word does not exist
 
-game :: (String, [String]) -> [String]-> IO ()
+game :: (String, [String]) -> [[(Char,Int)]]-> IO ()
 game (a,w) gameState = do
     hSetBuffering stdout NoBuffering
 
@@ -32,10 +34,10 @@ game (a,w) gameState = do
         clear
         case cond of
             0 -> do
-                display gameState
+                display (gameState++[parse input 0 a])
                 putStrLn "You win!"
             1 -> do
-                game (a,w) (gameState++[input])
+                game (a,w) (gameState++[parse input 0 a])
             2 -> do
                 putStrLn "Not a word!"
                 game (a,w) gameState
@@ -43,12 +45,12 @@ game (a,w) gameState = do
     else do
         putStrLn "Out of attempts!"
         putStr "The word was: "
-        putStrLn (map toUpper a)
+        putStrLn (green (map toUpper a))
 
     where
         att = length gameState
 
-display :: [String] -> IO()
+display :: [[(Char,Int)]] -> IO()
 display gameState = do
     putStrLn "---- Wordle ----"
     putStr (drawBoard (generateBoard gameState))
@@ -57,21 +59,23 @@ drawBoard :: [String] -> String
 drawBoard [] = []
 drawBoard (x:xs) = x ++ "\n" ++ drawBoard xs
 
-generateBoard :: [String] -> [String]
+generateBoard :: [[(Char,Int)]] -> [String]
 generateBoard [] = emptyLines gameLength
 generateBoard list = line ++ emptyLines n
     where
         line = map format list
         n = gameLength - length list
 
-
 emptyLines :: Int -> [String]
 emptyLines 0 = []
-emptyLines n = "□ □ □ □ □" : emptyLines (n-1)
+emptyLines n = gray "□ □ □ □ □" : emptyLines (n-1)
 
-format :: String -> String
+format :: [(Char,Int)] -> String
 format [] = []
-format (x:xs) = toUpper x : " " ++ format xs
+format ((x,i):xs) 
+    | i == 0 = gray (toUpper x : " ") ++ format xs
+    | i == 1 = yellow (toUpper x : " ") ++ format xs
+    | i == 2 = green (toUpper x : " ") ++ format xs
 
 clear :: IO ()
 clear = putStrLn "\ESC[2J"
