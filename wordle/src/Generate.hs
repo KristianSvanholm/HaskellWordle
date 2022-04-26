@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Redundant lambda" #-}
 {-# HLINT ignore "Used otherwise as a pattern" #-}
 module Generate(generateGame) where
 
@@ -25,11 +24,11 @@ generateGame = do
     return (answerPool!!num,words)
 
 removeNth :: Int -> [] a -> [] a
-removeNth = \ n list -> case n of
-            0 -> tail list
-            otherwise -> head list: removeNth (n-1) (tail list)
+removeNth n list = case n of
+      0 -> tail list
+      otherwise -> head list : removeNth (n - 1) (tail list)
 
 merge :: [a] -> [a] -> [a]
-merge xs     []     = xs
-merge []     ys     = ys
-merge (x:xs) (y:ys) = x : y : merge xs ys
+merge xs [] = xs
+merge [] ys = ys
+merge xs ys = xs++ys
