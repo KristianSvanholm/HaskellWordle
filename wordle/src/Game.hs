@@ -34,10 +34,10 @@ game (a,w) gameState = do
         clear
         case cond of
             0 -> do
-                display (gameState++[parse input 0 a])
+                display (gameState++[parse (map toLower input) a])
                 putStrLn "You win!"
             1 -> do
-                game (a,w) (gameState++[parse input 0 a])
+                game (a,w) (gameState++[parse (map toLower input) a])
             2 -> do
                 putStrLn "Not a word!"
                 game (a,w) gameState
