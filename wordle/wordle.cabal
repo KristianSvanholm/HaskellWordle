@@ -9,9 +9,9 @@ version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/wordle#readme>
 homepage:       https://github.com/githubuser/wordle#readme
 bug-reports:    https://github.com/githubuser/wordle/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2022 Author name here
+author:         Kristian Røren Svanholm
+maintainer:     KristianRorenSvanholm@gmail.com
+copyright:      2022 Kristian Røren Svanholm
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
