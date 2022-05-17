@@ -8,6 +8,10 @@ import Control.Monad
 main :: IO ()
 main = startGame
 
+{- | startGame
+    Generates a new game and runs it.
+    When game is finished, Recursively runs itself again if player wants to
+-}
 startGame:: IO()
 startGame = do
     clear
