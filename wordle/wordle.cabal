@@ -25,9 +25,9 @@ source-repository head
 
 library
   exposed-modules:
+      Colors
       Game
       Generate
-      Lib
       ReadFile
       WordParser
   other-modules:
