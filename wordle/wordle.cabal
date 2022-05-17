@@ -28,7 +28,6 @@ library
       Colors
       Game
       Generate
-      Lib
       ReadFile
       WordParser
   other-modules:
