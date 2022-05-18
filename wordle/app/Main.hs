@@ -1,6 +1,5 @@
 module Main where
 
-import Lib
 import Generate(generateGame)
 import Game(game,clear)
 import Control.Monad
