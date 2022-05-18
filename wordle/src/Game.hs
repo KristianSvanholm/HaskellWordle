@@ -5,28 +5,47 @@ import Data.Char
 import WordParser (parse)
 import Colors (gray, green, yellow)
 
-{-
+{- | gameLength
     Const for num of guesses in a game
 -}
 gameLength :: Int
 gameLength = 6
 
-{-
+{- | find
     Finds a word within list of not correct words
     Retruns True if it finds the word, False if not.
+
+    Tests:
+    >>> find "hello" ["hello","world"]
+    True
+    >>> find "goodbye" ["hello","world"]
+    False
+    >>> find "test" []
+    False
 -}
+
 find :: String -> [String] -> Bool
 find _ [] = False
 find n (x:xs)
     | x == n = True
     | otherwise = find n xs
 
-{-
+{- | checkWord
     Checks the 'correctness' of a guess against the answer and returns its value.
     Three 'correctness'-values:
     0 -> Correct answer, player has won
     1 -> Word exists in list, but is not correct
     2 -> Word does not exist
+
+    Tests:
+    >>> checkWord "answer" "guess" ["guess", "wrong"]
+    1
+    >>> checkWord "answer" "answer" ["guess","right"]
+    0
+    >>> checkWord "answer" "NOTREAL" ["guess","right"]
+    2
+    >>> checkWord "answer" "guess" []
+    2
 -}
 checkWord :: String -> String -> [String] -> Int
 checkWord a g w
@@ -34,7 +53,7 @@ checkWord a g w
     | find (map toLower g) w = 1 -- Word exists, but is not correct word.
     | otherwise = 2 -- Word does not exist
 
-{-
+{- | game
     Main game function running recursively until player wins or loses.
     - Reads a guess from IO
     - Runs guess through checkWord
@@ -73,7 +92,7 @@ game (a,w) gameState = do
         putStr "The word was: "
         putStrLn (green (map toUpper a)) -- Display correct word all green
 
-{-
+{- | display
     Display gamestate to terminal
 -}
 display :: [[(Char,Int)]] -> IO()
@@ -81,14 +100,22 @@ display gameState = do
     putStrLn "---- Wordle ----"
     putStr (drawBoard (generateBoard gameState))
 
-{-
+{- | drawBoard
     Compiles list of strings into one string with breaklines in between the elements.
+
+    Tests:
+    >>>  drawBoard ["Hello","World"] 
+    "Hello\nWorld\n"
+    >>> drawBoard [] 
+    ""
+    >>> drawBoard ["Hello"]
+    "Hello\n"
 -}
 drawBoard :: [String] -> String
-drawBoard [] = []
+drawBoard [] = ""
 drawBoard (x:xs) = x ++ "\n" ++ drawBoard xs
 
-{-
+{- | generateBoard
     Generates a list of colored strings.
     If list shorter than gamelength, fill in with strings of empty squares
 -}
@@ -99,7 +126,7 @@ generateBoard list = line ++ emptyLines n -- formated list ++ emptylines of n le
         line = map format list -- Formatted string created from list
         n = gameLength - length list -- Number of guesses left in the game
 
-{-
+{- | emptyLines
     Given an int n, creates list of n gray strings of 'empty' lines
 -}
 emptyLines :: Int -> [String]
@@ -107,7 +134,7 @@ emptyLines 0 = []
 emptyLines n = gray "□ □ □ □ □" : emptyLines (n-1)
 
 
-{-
+{- | format
     Formats data structure which contains a words letters and color code into string with color applied to them.
 -}
 format :: [(Char,Int)] -> String
@@ -117,7 +144,7 @@ format ((x,i):xs)
     | i == 1 = yellow (toUpper x : " ") ++ format xs -- Yellow letter
     | i == 2 = green (toUpper x : " ") ++ format xs -- Green letter
 
-{-
+{- | clear
     Clears terminal screen
 -}
 clear :: IO ()
