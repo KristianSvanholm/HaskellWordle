@@ -21,7 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
-
+  
 library:
   source-dirs: src
   dependencies:
@@ -40,8 +40,8 @@ executables:
     - wordle
 
 tests:
-  wordle-test:
-    main:                Spec.hs
+  Game:
+    main:                Game-test.hs
     source-dirs:         test
     ghc-options:
     - -threaded
@@ -49,3 +49,35 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - wordle
+    - doctest
+    - QuickCheck
+    - HUnit
+    - hspec
+
+  Generate:
+    main:                Generate-test.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - wordle
+    - doctest
+    - QuickCheck
+    - HUnit
+    - hspec
+
+  WordParser:
+    main:                WordParser-test.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - wordle
+    - doctest
+    - QuickCheck
+    - HUnit
+    - hspec
