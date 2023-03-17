@@ -1,4 +1,21 @@
-## Haskell Wordle
+# Haskell Wordle
+
+## What is this?
+The following is a project from the course 'Prog2006 - Advanced programming' at NTNU Gjøvik i completed spring '22.  
+It's far from perfect, but works :)
+
+## Build and run
+This project requires the Haskell Tool Stack to run. [Install Stack](https://docs.haskellstack.org/en/stable/install_and_upgrade/)
+
+Once installed, navigate to your local repo, cd into the folder 'wordle' and write the following command to build
+```
+$ stack build
+```
+And the following command to run
+```
+$ stack run
+```
+Alternatively, only running the latter should both build and run the code if any changes have been made.
 
 # Pitch
 I'd like to attempt to recreate the now-famous browser game Wordle in Haskell.  
@@ -31,7 +48,7 @@ During the game it would look something like this
     
 (If for whatever reason I can't figure out how to get colors working, the application would display a secondary game panel with special ascii symbols or integers depicting the colors)
 
-# Tech
+## Tech
 The way I would solve this is by reading in two lists of words. One list of possible answers and one list of all possible five letter words. Then, by seeding a random number generator with the current time in seconds, I would pick one of the possible answers and append the rest of the words to the list of all possible words. During runtime the program would then check if the word written is equal to the solution, and if not, check if it exists within the list of all possible words. If the word is not within that list either, Disallow the written word (Maybe cache it for the session as to improve efficiency...) If it does exist, then parse the word against the solution to look for any yellow or green status letters and write this to the currently displayed array.
 
 Some pseudocode for the game loop:
