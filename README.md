@@ -1,7 +1,7 @@
 # Haskell Wordle
 
 ## What is this?
-The following is a project from the course 'Prog2006 - Advanced programming' at NTNU Gjøvik i completed spring '22.  
+The following is a project from the course 'Prog2006 - Advanced programming' at NTNU Gjøvik I completed spring '22.  
 It's far from perfect, but works :)
 
 ## Build and run
